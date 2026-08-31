@@ -10,10 +10,12 @@ mongoose
   .catch((err) => console.log(err));
 
 const authRoute = require("./routes/auth.route");
+const taskRoute = require("./routes/task.route");
 const errHandle = require("./middlewares/err.middleware");
 
 app.use(express.json());
 app.use("/auth", authRoute);
+app.use("/tasks", taskRoute);
 app.use(errHandle);
 
 const port = process.env.port;
