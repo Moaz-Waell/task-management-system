@@ -22,8 +22,14 @@ exports.getTasks = async (req, res) => {
     const filter = { user: req.user.id };
 
     if (title) {
-      filter.title = { $regex: title.trim(), $options: "i" };
-    }
+  const escapedTitle = title
+    .trim()
+    .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  if (escapedTitle) {
+    filter.title = { $regex: escapedTitle, $options: "i" };
+  }
+}
 
     if (status) {
       filter.status = status;
