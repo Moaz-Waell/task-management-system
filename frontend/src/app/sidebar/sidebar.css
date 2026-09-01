@@ -1,0 +1,10 @@
+.nav-link-item {
+  color: #424655;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.nav-link-item.active-link {
+  background-color: #0d6efd;
+  color: white;
+}
