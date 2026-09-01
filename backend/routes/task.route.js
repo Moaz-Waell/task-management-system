@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/task.controller");
-const protect = require("../middlewares/auth.middleware");
+const checkTaskOwnership = require("../middlewares/ownership.middleware");
 
-router.get("/", protect, taskController.getTasks);
-router.get("/:id", protect, taskController.getTaskById);
-router.post("/", protect, taskController.createTask);
-router.put("/:id", protect, taskController.updateTask);
-router.delete("/:id", protect, taskController.deleteTask);
+// Routes
+router.post("/", taskController.createTask);
+router.get("/", taskController.getTasks);
+router.get("/:id", taskController.getTaskById);
+
+// Routes requiring ownership check
+router.put("/:id", checkTaskOwnership, taskController.updateTask);
+router.delete("/:id", checkTaskOwnership, taskController.deleteTask);
 
 module.exports = router;
