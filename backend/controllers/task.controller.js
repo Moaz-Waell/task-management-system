@@ -8,6 +8,7 @@ const getTasks = async (req, res, next) => {
     if (title) {
       query.title = { $regex: title, $options: "i" };
     }
+
     if (status) {
       query.status = status;
     }
@@ -21,10 +22,17 @@ const getTasks = async (req, res, next) => {
 
 const getTaskById = async (req, res, next) => {
   try {
-    const task = await Task.findOne({ _id: req.params.id, user: req.user.id });
+    const task = await Task.findOne({
+      _id: req.params.id,
+      user: req.user.id,
+    });
+
     if (!task) {
-      return res.status(404).json({ msg: "task not found" });
+      const err = new Error("task not found");
+      err.status = 404;
+      return next(err);
     }
+
     res.status(200).json(task);
   } catch (err) {
     next(err);
@@ -34,7 +42,13 @@ const getTaskById = async (req, res, next) => {
 const createTask = async (req, res, next) => {
   try {
     const { title, description, status } = req.body;
-    const task = new Task({ title, description, status, user: req.user.id });
+    const task = new Task({
+      title,
+      description,
+      status,
+      user: req.user.id,
+    });
+
     await task.save();
     res.status(201).json(task);
   } catch (err) {
@@ -49,9 +63,13 @@ const updateTask = async (req, res, next) => {
       req.body,
       { new: true },
     );
+
     if (!task) {
-      return res.status(404).json({ msg: "task not found" });
+      const err = new Error("task not found");
+      err.status = 404;
+      return next(err);
     }
+
     res.status(200).json(task);
   } catch (err) {
     next(err);
@@ -64,9 +82,13 @@ const deleteTask = async (req, res, next) => {
       _id: req.params.id,
       user: req.user.id,
     });
+
     if (!task) {
-      return res.status(404).json({ msg: "task not found" });
+      const err = new Error("task not found");
+      err.status = 404;
+      return next(err);
     }
+
     res.status(200).json({ msg: "task deleted successfully" });
   } catch (err) {
     next(err);
@@ -78,17 +100,21 @@ const uploadAttachment = async (req, res, next) => {
     const task = await Task.findById(req.params.id);
 
     if (!task) {
-      return res.status(404).json({ msg: "task not found" });
+      const err = new Error("task not found");
+      err.status = 404;
+      return next(err);
     }
 
     if (task.user.toString() !== req.user.id) {
-      return res
-        .status(403)
-        .json({ msg: "you are not the owner of this task" });
+      const err = new Error("you are not the owner of this task");
+      err.status = 403;
+      return next(err);
     }
 
     if (!req.file) {
-      return res.status(400).json({ msg: "no file uploaded" });
+      const err = new Error("no file uploaded");
+      err.status = 400;
+      return next(err);
     }
 
     task.attachment = req.file.path;
