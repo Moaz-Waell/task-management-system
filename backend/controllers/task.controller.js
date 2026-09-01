@@ -1,110 +1,64 @@
 const Task = require("../models/task.model");
 
-const getTasks = async (req, res, next) => {
+// Create Task
+exports.createTask = async (req, res) => {
   try {
-    const { title, status } = req.query;
-    const query = { user: req.user.id };
-
-    if (title) {
-      query.title = { $regex: title, $options: "i" };
-    }
-    if (status) {
-      query.status = status;
-    }
-
-    const tasks = await Task.find(query).sort({ createdAt: -1 });
-    res.status(200).json(tasks);
-  } catch (err) {
-    next(err);
-  }
-};
-
-const getTaskById = async (req, res, next) => {
-  try {
-    const task = await Task.findOne({ _id: req.params.id, user: req.user.id });
-    if (!task) {
-      return res.status(404).json({ msg: "task not found" });
-    }
-    res.status(200).json(task);
-  } catch (err) {
-    next(err);
-  }
-};
-
-const createTask = async (req, res, next) => {
-  try {
-    const { title, description, status } = req.body;
-    const task = new Task({ title, description, status, user: req.user.id });
-    await task.save();
-    res.status(201).json(task);
-  } catch (err) {
-    next(err);
-  }
-};
-
-const updateTask = async (req, res, next) => {
-  try {
-    const task = await Task.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
-      req.body,
-      { new: true },
-    );
-    if (!task) {
-      return res.status(404).json({ msg: "task not found" });
-    }
-    res.status(200).json(task);
-  } catch (err) {
-    next(err);
-  }
-};
-
-const deleteTask = async (req, res, next) => {
-  try {
-    const task = await Task.findOneAndDelete({
-      _id: req.params.id,
+    const task = await Task.create({
+      ...req.body,
       user: req.user.id,
     });
-    if (!task) {
-      return res.status(404).json({ msg: "task not found" });
-    }
-    res.status(200).json({ msg: "task deleted successfully" });
-  } catch (err) {
-    next(err);
+
+    const populatedTask = await task.populate("user", "name email");
+    res.status(201).json(populatedTask);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
-const uploadAttachment = async (req, res, next) => {
+// Get All Tasks for Logged-in User
+exports.getTasks = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
-
-    if (!task) {
-      return res.status(404).json({ msg: "task not found" });
-    }
-
-    if (task.user.toString() !== req.user.id) {
-      return res
-        .status(403)
-        .json({ msg: "you are not the owner of this task" });
-    }
-
-    if (!req.file) {
-      return res.status(400).json({ msg: "no file uploaded" });
-    }
-
-    task.attachment = req.file.path;
-    await task.save();
-
-    res.status(200).json(task);
-  } catch (err) {
-    next(err);
+    const tasks = await Task.find({ user: req.user.id }).populate("user", "name email");
+    res.status(200).json(tasks);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = {
-  getTasks,
-  getTaskById,
-  createTask,
-  updateTask,
-  deleteTask,
-  uploadAttachment,
+// Get Single Task by ID
+exports.getTaskById = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id).populate("user", "name email");
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+    res.status(200).json(task);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Update Task
+exports.updateTask = async (req, res) => {
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    ).populate("user", "name email");
+
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Delete Task
+exports.deleteTask = async (req, res) => {
+  try {
+    await Task.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Task deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
