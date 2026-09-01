@@ -47,7 +47,7 @@ const updateTask = async (req, res, next) => {
     const task = await Task.findOneAndUpdate(
       { _id: req.params.id, user: req.user.id },
       req.body,
-      { new: true }
+      { new: true },
     );
     if (!task) {
       return res.status(404).json({ msg: "task not found" });
@@ -60,7 +60,10 @@ const updateTask = async (req, res, next) => {
 
 const deleteTask = async (req, res, next) => {
   try {
-    const task = await Task.findOneAndDelete({ _id: req.params.id, user: req.user.id });
+    const task = await Task.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user.id,
+    });
     if (!task) {
       return res.status(404).json({ msg: "task not found" });
     }
@@ -70,4 +73,38 @@ const deleteTask = async (req, res, next) => {
   }
 };
 
-module.exports = { getTasks, getTaskById, createTask, updateTask, deleteTask };
+const uploadAttachment = async (req, res, next) => {
+  try {
+    const task = await Task.findById(req.params.id);
+
+    if (!task) {
+      return res.status(404).json({ msg: "task not found" });
+    }
+
+    if (task.user.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ msg: "you are not the owner of this task" });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ msg: "no file uploaded" });
+    }
+
+    task.attachment = req.file.path;
+    await task.save();
+
+    res.status(200).json(task);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = {
+  getTasks,
+  getTaskById,
+  createTask,
+  updateTask,
+  deleteTask,
+  uploadAttachment,
+};

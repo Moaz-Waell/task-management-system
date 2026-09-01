@@ -20,8 +20,12 @@ const taskSchema = new mongoose.Schema(
       ref: "Users",
       required: true,
     },
+    attachment: {
+      type: String,
+      default: null,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Task", taskSchema);
