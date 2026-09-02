@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 const app = express();
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 mongoose
   .connect(process.env.mongo_url)
@@ -14,6 +15,7 @@ const taskRoute = require("./routes/task.route");
 const userRoute = require("./routes/user.route");
 const errHandle = require("./middlewares/err.middleware");
 
+app.use(cors({ origin: "http://localhost:4200" }));
 app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/tasks", taskRoute);
