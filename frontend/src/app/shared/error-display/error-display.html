@@ -1,0 +1,21 @@
+<div
+  *ngIf="show && message"
+  class="error-box"
+  role="alert"
+>
+
+  <div class="error-icon">
+    !
+  </div>
+
+  <div class="error-content">
+
+    <strong>Something went wrong</strong>
+
+    <p>
+      {{ message }}
+    </p>
+
+  </div>
+
+</div>

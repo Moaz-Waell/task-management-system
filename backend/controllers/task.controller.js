@@ -1,7 +1,7 @@
 const Task = require("../models/task.model");
 
 // Create Task
-exports.createTask = async (req, res) => {
+exports.createTask = async (req, res, next) => {
   try {
     const task = await Task.create({
       ...req.body,
@@ -9,27 +9,27 @@ exports.createTask = async (req, res) => {
     });
 
     const populatedTask = await task.populate("user", "name email");
+
     res.status(201).json(populatedTask);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    next(error);
   }
 };
 
 // Get All Tasks for Logged-in User
-exports.getTasks = async (req, res) => {
+exports.getTasks = async (req, res, next) => {
   try {
     const { title, status } = req.query;
+
     const filter = { user: req.user.id };
 
     if (title) {
-  const escapedTitle = title
-    .trim()
-    .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const escapedTitle = title.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  if (escapedTitle) {
-    filter.title = { $regex: escapedTitle, $options: "i" };
-  }
-}
+      if (escapedTitle) {
+        filter.title = { $regex: escapedTitle, $options: "i" };
+      }
+    }
 
     if (status) {
       filter.status = status;
@@ -41,44 +41,51 @@ exports.getTasks = async (req, res) => {
 
     res.status(200).json(tasks);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
 // Get Single Task by ID
-exports.getTaskById = async (req, res) => {
+exports.getTaskById = async (req, res, next) => {
   try {
-    const task = await Task.findById(req.params.id).populate("user", "name email");
+    const task = await Task.findById(req.params.id).populate(
+      "user",
+      "name email",
+    );
+
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
+
     res.status(200).json(task);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
 // Update Task
-exports.updateTask = async (req, res) => {
+exports.updateTask = async (req, res, next) => {
   try {
-    const updatedTask = await Task.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true }
-    ).populate("user", "name email");
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    }).populate("user", "name email");
 
     res.status(200).json(updatedTask);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    next(error);
   }
 };
 
 // Delete Task
-exports.deleteTask = async (req, res) => {
+exports.deleteTask = async (req, res, next) => {
   try {
     await Task.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Task deleted successfully" });
+
+    res.status(200).json({
+      message: "Task deleted successfully",
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };

@@ -10,13 +10,15 @@ const checkTaskOwnership = async (req, res, next) => {
 
     // Checking if the task belongs to the authenticated user
     if (task.user.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Not authorized to modify this task" });
+      return res.status(403).json({
+        message: "Not authorized to modify this task",
+      });
     }
 
     req.task = task;
     next();
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 

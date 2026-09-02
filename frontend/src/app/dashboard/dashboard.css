@@ -1,0 +1,281 @@
+.dashboard {
+  padding: 32px 38px;
+  background: #ffffff;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+
+/* =========================
+   Header
+========================= */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 38px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -1px;
+}
+
+.dashboard-header p {
+  margin: 12px 0 0;
+  font-size: 18px;
+  color: #6b7280;
+}
+
+
+/* =========================
+   New Task Button
+========================= */
+
+.new-task-btn {
+  border: none;
+  background: #0866d6;
+  color: white;
+
+  padding: 13px 25px;
+  min-width: 170px;
+
+  border-radius: 9px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.12);
+}
+
+.new-task-btn span {
+  font-size: 27px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.new-task-btn:hover {
+  background: #0759bb;
+}
+
+
+/* =========================
+   Statistics
+========================= */
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+
+/* =========================
+   Card
+========================= */
+
+.stat-card {
+  position: relative;
+
+  min-height: 175px;
+
+  padding: 28px;
+
+  border: 1px solid #d2d6e2;
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  background: #f9f9fd;
+}
+
+
+/* Decorative circle */
+
+.stat-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 145px;
+  height: 145px;
+
+  right: -38px;
+  top: -65px;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+.total-card::after {
+  background: #e9ebff;
+}
+
+.pending-card::after {
+  background: #ffebe3;
+}
+
+.completed-card::after {
+  background: #ececf7;
+}
+
+
+/* =========================
+   Card Top
+========================= */
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================
+   Icons
+========================= */
+
+.icon-box {
+  width: 50px;
+  height: 57px;
+
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+
+  font-size: 28px;
+}
+
+.total-icon {
+  background: #0878f9;
+}
+
+.pending-icon {
+  background: #e85b00;
+}
+
+.completed-icon {
+  background: #e7e8f1;
+  color: #4b5563;
+}
+
+
+/* =========================
+   Badges
+========================= */
+
+.card-badge {
+  padding: 6px 11px;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.blue-badge {
+  background: #f0f1fa;
+  color: #6b7280;
+}
+
+.orange-badge {
+  background: #ffe4d8;
+  color: #d65a1a;
+}
+
+.gray-badge {
+  background: #f1f1f8;
+  color: #777b8c;
+}
+
+
+/* =========================
+   Card Content
+========================= */
+
+.card-content {
+  margin-top: 18px;
+}
+
+.card-content p {
+  margin: 0;
+
+  color: #5f6470;
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.card-content h2 {
+  margin: 5px 0 0;
+
+  color: #111827;
+
+  font-size: 47px;
+  line-height: 1;
+
+  font-weight: 700;
+}
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 1000px) {
+
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header {
+    gap: 20px;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .dashboard {
+    padding: 25px 20px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+  }
+
+  .dashboard-header h1 {
+    font-size: 30px;
+  }
+
+  .dashboard-header p {
+    font-size: 15px;
+  }
+
+  .new-task-btn {
+    width: 100%;
+  }
+
+}
