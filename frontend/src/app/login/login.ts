@@ -25,19 +25,27 @@ export class Login {
     });
   }
 
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
   login() {
     if (this.loginform.invalid) return;
     const { email, password } = this.loginform.value;
-    const loginuser = this.userservice.login(email, password);
-    if (loginuser) {
-      this.loginError = false;
-      this.userservice.setuser(loginuser);
-      this.router.navigate(['/dashboard']);
-    } else {
-      this.loginError = true;
-    }
-  }
-  togglePassword() {
-    this.showPassword = !this.showPassword;
+    this.userservice.login(email, password).subscribe({
+      next: (res) => {
+        this.loginError = false;
+        this.userservice.settoken(res.token);
+
+        const payload = JSON.parse(atob(res.token.split('.')[1]));
+        this.userservice.setuser({ name: payload.name, email: payload.email, password: '' });
+
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.log(err);
+        this.loginError = true;
+      },
+    });
   }
 }

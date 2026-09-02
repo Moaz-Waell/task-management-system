@@ -1,21 +1,44 @@
-import { Service } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { IUser } from '../models/iuser';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Service()
 export class Userservice {
-  myusers: IUser[] = [{ name: 'Mostafa', email: 'Mostafa@gmail.com', password: '12345678' }];
+  private http = inject(HttpClient);
+  private apiurl = 'http://127.0.0.1:8000';
 
-  login(email: string, password: string): IUser | undefined {
-    return this.myusers.find((u) => u.email === email && u.password === password);
+  register(user: IUser): Observable<any> {
+    return this.http.post<any>(`${this.apiurl}/auth/register`, user);
   }
 
-  setuser(user: IUser) {
-    return localStorage.setItem('user', JSON.stringify(user));
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiurl}/auth/login`, { email, password });
+  }
+
+  setuser(user: IUser): void {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   getuser(): IUser | null {
     const data = localStorage.getItem('user');
     return data ? JSON.parse(data) : null;
+  }
+
+  settoken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
+  gettoken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  getauthheaders() {
+    return { headers: { authorization: `${this.gettoken()}` } };
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   }
 }

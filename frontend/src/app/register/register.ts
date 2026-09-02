@@ -17,12 +17,21 @@ export class Register {
   ) {}
   user: IUser = { name: '', email: '', password: '' };
   showPassword: boolean = false;
+  registerError: string = '';
 
   save(form: NgForm) {
     if (form.valid) {
-      alert('Registered successfully');
-      form.resetForm();
-      this.router.navigate(['/login']);
+      this.userservice.register(this.user).subscribe({
+        next: (res) => {
+          alert('Registered successfully');
+          form.resetForm();
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.log(err);
+          this.registerError = err.error?.errMsg || 'Registration failed. Please try again.';
+        },
+      });
     }
   }
 

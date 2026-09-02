@@ -7,11 +7,12 @@ import { Sidebar } from './sidebar/sidebar';
 import { Login } from './login/login';
 import { Register } from './register/register';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { Userservice } from './services/userservice';
 
 @NgModule({
   declarations: [App, Navbar, Sidebar, Login, Register],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   providers: [provideBrowserGlobalErrorListeners(), Userservice],
   bootstrap: [App],
 })
