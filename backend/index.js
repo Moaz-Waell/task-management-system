@@ -11,13 +11,11 @@ mongoose
 
 const authRoute = require("./routes/auth.route");
 const taskRoute = require("./routes/task.route");
-const userRoute = require("./routes/user.route");
 const errHandle = require("./middlewares/err.middleware");
 
 app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/tasks", taskRoute);
-app.use("/users", userRoute);
 app.use(errHandle);
 
 const port = process.env.port;

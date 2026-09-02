@@ -1,16 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/task.controller");
-const checkTaskOwnership = require("../middlewares/ownership.middleware");
-const searchFilter = require("../middlewares/search-filter.middleware");
+const protect = require("../middlewares/auth.middleware");
+const upload = require("../middlewares/upload.middleware");
 
-
-// Routes
-router.post("/", taskController.createTask);
-router.get("/", searchFilter, taskController.getTasks);
-router.get("/:id", taskController.getTaskById);
-// Routes requiring ownership check
-router.put("/:id", checkTaskOwnership, taskController.updateTask);
-router.delete("/:id", checkTaskOwnership, taskController.deleteTask);
+router.get("/", protect, taskController.getTasks);
+router.get("/:id", protect, taskController.getTaskById);
+router.post("/", protect, taskController.createTask);
+router.put("/:id", protect, taskController.updateTask);
+router.delete("/:id", protect, taskController.deleteTask);
+router.post(
+  "/:id/upload",
+  protect,
+  upload.single("attachment"),
+  taskController.uploadAttachment,
+);
 
 module.exports = router;
