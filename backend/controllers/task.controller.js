@@ -18,7 +18,27 @@ exports.createTask = async (req, res) => {
 // Get All Tasks for Logged-in User
 exports.getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.user.id }).populate("user", "name email");
+    const { title, status } = req.query;
+    const filter = { user: req.user.id };
+
+    if (title) {
+  const escapedTitle = title
+    .trim()
+    .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  if (escapedTitle) {
+    filter.title = { $regex: escapedTitle, $options: "i" };
+  }
+}
+
+    if (status) {
+      filter.status = status;
+    }
+
+    const tasks = await Task.find(filter)
+      .populate("user", "name email")
+      .sort({ createdAt: -1 });
+
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ message: error.message });
