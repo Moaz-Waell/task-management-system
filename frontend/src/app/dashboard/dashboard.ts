@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ITask } from '../models/itask';
 import { DashboardService } from '../services/dashboard';
+import { Userservice } from '../services/userservice';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,11 +17,20 @@ export class Dashboard implements OnInit {
   pendingTasks = 0;
   completedTasks = 0;
 
+  userName = '';
+
   constructor(
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private userservice: Userservice
   ) {}
 
   ngOnInit(): void {
+    const user = this.userservice.getuser();
+
+    if (user) {
+      this.userName = user.name;
+    }
+
     this.loadTasks();
   }
 

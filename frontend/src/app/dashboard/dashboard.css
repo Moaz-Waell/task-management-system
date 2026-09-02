@@ -5,15 +5,7 @@
   box-sizing: border-box;
 }
 
-
-/* =========================
-   Header
-========================= */
-
 .dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   margin-bottom: 38px;
 }
 
@@ -31,31 +23,20 @@
   color: #6b7280;
 }
 
-
-/* =========================
-   New Task Button
-========================= */
-
 .new-task-btn {
   border: none;
   background: #0866d6;
   color: white;
-
   padding: 13px 25px;
   min-width: 170px;
-
   border-radius: 9px;
-
   font-size: 16px;
   font-weight: 600;
-
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.12);
 }
 
@@ -69,55 +50,25 @@
   background: #0759bb;
 }
 
-
-/* =========================
-   Statistics
-========================= */
-
-.stats-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-}
-
-
-/* =========================
-   Card
-========================= */
-
 .stat-card {
   position: relative;
-
   min-height: 175px;
-
   padding: 28px;
-
   border: 1px solid #d2d6e2;
   border-radius: 15px;
-
   overflow: hidden;
-
   box-sizing: border-box;
-
   background: #f9f9fd;
 }
 
-
-/* Decorative circle */
-
 .stat-card::after {
   content: "";
-
   position: absolute;
-
   width: 145px;
   height: 145px;
-
   right: -38px;
   top: -65px;
-
   border-radius: 50%;
-
   pointer-events: none;
 }
 
@@ -133,37 +84,22 @@
   background: #ececf7;
 }
 
-
-/* =========================
-   Card Top
-========================= */
-
 .card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   position: relative;
   z-index: 2;
 }
 
-
-/* =========================
-   Icons
-========================= */
-
 .icon-box {
   width: 50px;
   height: 57px;
-
   border-radius: 10px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: white;
-
   font-size: 28px;
 }
 
@@ -180,16 +116,9 @@
   color: #4b5563;
 }
 
-
-/* =========================
-   Badges
-========================= */
-
 .card-badge {
   padding: 6px 11px;
-
   border-radius: 20px;
-
   font-size: 13px;
   white-space: nowrap;
 }
@@ -209,61 +138,28 @@
   color: #777b8c;
 }
 
-
-/* =========================
-   Card Content
-========================= */
-
 .card-content {
   margin-top: 18px;
 }
 
 .card-content p {
   margin: 0;
-
   color: #5f6470;
-
   font-size: 16px;
   font-weight: 600;
 }
 
 .card-content h2 {
   margin: 5px 0 0;
-
   color: #111827;
-
   font-size: 47px;
   line-height: 1;
-
   font-weight: 700;
 }
 
-
-/* =========================
-   Responsive
-========================= */
-
-@media (max-width: 1000px) {
-
-  .stats-container {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-header {
-    gap: 20px;
-  }
-
-}
-
-
 @media (max-width: 700px) {
-
   .dashboard {
     padding: 25px 20px;
-  }
-
-  .dashboard-header {
-    flex-direction: column;
   }
 
   .dashboard-header h1 {
@@ -277,5 +173,4 @@
   .new-task-btn {
     width: 100%;
   }
-
 }
