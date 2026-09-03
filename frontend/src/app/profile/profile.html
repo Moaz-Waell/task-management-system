@@ -1,0 +1,41 @@
+<div class="d-flex">
+  <app-sidebar></app-sidebar>
+
+  <main class="profile-page flex-grow-1">
+    <div class="profile-header">
+      <h1>Profile Settings</h1>
+      <p>Manage your personal information.</p>
+    </div>
+
+    <section class="profile-card">
+      <div class="profile-card-header">
+        <h2><i class="bi bi-pencil-square"></i> Edit Profile</h2>
+      </div>
+
+      <form [formGroup]="profileForm" (ngSubmit)="save()">
+        <div class="profile-fields">
+          <div class="field-group">
+            <label for="name">Full Name</label>
+            <input id="name" type="text" formControlName="name" />
+            <small>This email is used for login.</small>
+          </div>
+
+          <div class="field-group">
+            <label for="email">Email Address</label>
+            <input id="email" type="email" formControlName="email" />
+          </div>
+        </div>
+
+        <p class="save-error" *ngIf="saveError">{{ saveError }}</p>
+
+        <div class="profile-actions">
+          <button type="button" class="cancel-button" (click)="cancel()">Cancel</button>
+          <button type="submit" class="save-button" [disabled]="profileForm.invalid || isSaving">
+            <i class="bi bi-floppy"></i>
+            {{ isSaving ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>

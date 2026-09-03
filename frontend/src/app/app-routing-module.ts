@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Login } from './login/login';
 import { Register } from './register/register';
 import { Dashboard } from './dashboard/dashboard';
+import { Profile } from './profile/profile';
 import { TaskForm } from './task-form/task-form';
 import { authGuard } from './guards/auth-guard';
 import { noAuthGuard } from './guards/no-auth-guard';
@@ -18,6 +19,9 @@ const routes: Routes = [
     component: Dashboard,
     canActivate: [authGuard],
   },
+  {
+    path: 'profile',
+    component: Profile,
 
   {
     path: 'tasks/new',

@@ -16,6 +16,10 @@ export class Userservice {
     return this.http.post<any>(`${this.apiurl}/auth/login`, { email, password });
   }
 
+  updateProfile(id: string, profile: Pick<IUser, 'name' | 'email'>): Observable<any> {
+    return this.http.put<any>(`${this.apiurl}/users/${id}`, profile, this.getauthheaders());
+  }
+
   setuser(user: IUser): void {
     localStorage.setItem('user', JSON.stringify(user));
   }
