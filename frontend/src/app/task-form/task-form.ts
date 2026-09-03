@@ -28,19 +28,19 @@ export class TaskForm implements OnInit {
   message: string = '';
   errormessage: string = '';
 
-constructor(
-  private taskservice: Taskservice,
-  private dashboardService: DashboardService,
-  private activatedroute: ActivatedRoute,
-  private router: Router,
-) {}
+  constructor(
+    private taskservice: Taskservice,
+    private dashboardService: DashboardService,
+    private activatedroute: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.taskid = this.activatedroute.snapshot.paramMap.get('id');
 
     this.returnPage =
-  this.activatedroute.snapshot.queryParamMap.get('from') ||
-  'dashboard';
+      this.activatedroute.snapshot.queryParamMap.get('from') ||
+      'dashboard';
 
     if (this.taskid) {
       this.isedit = true;
@@ -151,27 +151,31 @@ constructor(
       });
   }
 
-savesuccess(message: string): void {
-  this.issaving = false;
-  this.message = message;
+  savesuccess(message: string): void {
+    this.issaving = false;
+    this.message = message;
 
-  this.dashboardService.notifyTaskChanged();
+    this.dashboardService.notifyTaskChanged();
 
-  setTimeout(() => {
-    this.router.navigate(['/dashboard']);
-  }, 1000);
-}
+    setTimeout(() => {
+      this.goback();
+    }, 1000);
+  }
 
   saveerror(message: string): void {
     this.issaving = false;
     this.errormessage = message;
   }
 
-  cancel(): void {
+  goback(): void {
     if (this.returnPage === 'tasks') {
       this.router.navigate(['/tasks']);
     } else {
       this.router.navigate(['/dashboard']);
     }
+  }
+
+  cancel(): void {
+    this.goback();
   }
 }
