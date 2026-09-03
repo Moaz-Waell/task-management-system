@@ -6,15 +6,9 @@ const register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     const user = new User({ name, email, password });
-    await user.save(); 
+    await user.save();
 
-    const token = jwt.sign(
-      { id: user._id, name: user.name, email: user.email },
-      process.env.secret_key,
-      { expiresIn: "1h" },
-    );
-
-    res.status(201).json({ user, token });
+    res.status(201).json({ user });
   } catch (err) {
     next(err);
   }
