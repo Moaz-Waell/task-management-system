@@ -34,9 +34,7 @@ export class Profile implements OnInit {
     }
   }
 
-  cancel(): void {
-    this.router.navigate(['/dashboard']);
-  }
+
 
   save(): void {
     if (this.profileForm.invalid || this.isSaving) return;
