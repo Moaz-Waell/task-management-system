@@ -13,7 +13,7 @@ A full-stack task management web app. Users can register, log in, and manage the
 
 **Frontend**
 - Angular (module-based, not standalone)
-- Bootstrap 5 for styling
+- Bootstrap 5 for styling, with some custom CSS per component where needed
 - Reactive + template-driven forms
 - RxJS (Observables/HttpClient)
 
