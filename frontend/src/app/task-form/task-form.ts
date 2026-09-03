@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ITask } from '../models/itask';
@@ -33,6 +37,7 @@ export class TaskForm implements OnInit {
     private dashboardService: DashboardService,
     private activatedroute: ActivatedRoute,
     private router: Router,
+    private cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -47,11 +52,14 @@ export class TaskForm implements OnInit {
 
       this.taskservice.gettaskbyid(this.taskid).subscribe({
         next: (oldtask: ITask) => {
-          this.task = oldtask;
+          this.task = { ...oldtask };
+          this.cd.detectChanges();
         },
         error: (error) => {
           this.errormessage =
             error.error?.message || 'Failed to load task';
+
+          this.cd.detectChanges();
         },
       });
     }

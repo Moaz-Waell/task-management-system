@@ -86,11 +86,16 @@ export class Tasklist implements OnInit {
   }
 
   goToEdit(id: string | undefined): void {
-    if (id) this.router.navigate(['/tasks/edit', id]);
+    if (id) {
+      this.router.navigate(['/tasks/edit', id], {
+        queryParams: { from: 'tasks' }
+      });
+    }
   }
 
   onDelete(id: string | undefined): void {
     if (!id) return;
+
     if (confirm('Are you sure you want to delete this task?')) {
       this.taskService.deletetask(id).subscribe({
         next: () => {
