@@ -1,1 +1,62 @@
-<p>tasklist works!</p>
+<div class="d-flex">
+  <app-sidebar></app-sidebar>
+
+  <main class="main-canvas">
+    <div class="page-header">
+      <div>
+        <h1>My Tasks</h1>
+        <p>Manage and track your project workflows.</p>
+      </div>
+      <button class="btn-primary" (click)="goToNewTask()">+ New Task</button>
+    </div>
+
+    <div class="error-banner" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <div class="filter-bar">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search tasks..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+      />
+      <select class="status-select" [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange()">
+        <option value="all">All Statuses</option>
+        <option value="pending">Pending</option>
+        <option value="in-progress">In-Progress</option>
+        <option value="completed">Completed</option>
+      </select>
+      <select class="sort-select">
+        <option>Sort by: Date</option>
+      </select>
+    </div>
+
+    <div class="task-data-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Task Name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of filteredTasks">
+            <td class="task-name">{{ task.title }}</td>
+            <td class="task-desc">{{ task.description }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="task.status">{{ task.status }}</span>
+            </td>
+            <td>{{ task.createdAt ? (task.createdAt | date:'MMM d') : '—' }}</td>
+            <td class="actions">
+              <button class="icon-btn" (click)="goToEdit(task._id)" title="Edit">✏️</button>
+              <button class="icon-btn" (click)="onDelete(task._id)" title="Delete">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>

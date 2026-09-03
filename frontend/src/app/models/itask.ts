@@ -5,4 +5,5 @@ export interface ITask {
   status: 'pending' | 'in-progress' | 'completed';
   user?: string;
   attachment?: string;
+   createdAt?: string;
 }
