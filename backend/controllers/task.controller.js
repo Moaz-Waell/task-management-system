@@ -89,3 +89,23 @@ exports.deleteTask = async (req, res, next) => {
     next(error);
   }
 };
+// Upload Attachment
+exports.uploadAttachment = async (req, res, next) => {
+  try {
+    const task = req.task;
+
+    if (!req.file) {
+      return res.status(400).json({
+      });
+    }
+
+    task.attachment = req.file.path;
+    await task.save();
+
+    const populatedTask = await task.populate("user", "name email");
+
+    res.status(200).json(populatedTask);
+  } catch (error) {
+    next(error);
+  }
+};
