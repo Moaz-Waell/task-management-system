@@ -1,37 +1,69 @@
-.error-box {
+.error-container {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 16px;
-  margin-bottom: 20px;
-  border: 1px solid #fecaca;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 18px;
+  margin: 16px 0;
+  box-sizing: border-box;
+
+  background: #fff5f5;
+  border: 1px solid #ffd4d4;
+  border-left: 4px solid #e53935;
   border-radius: 10px;
-  background: #fef2f2;
-  color: #991b1b;
+
+  color: #b42318;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .error-icon {
-  width: 24px;
-  height: 24px;
-  min-width: 24px;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+
   display: flex;
-  justify-content: center;
   align-items: center;
-  border-radius: 50%;
-  background: #dc2626;
+  justify-content: center;
+
+  background: #e53935;
   color: white;
-  font-size: 13px;
+  border-radius: 50%;
+
+  font-size: 18px;
   font-weight: 700;
 }
 
-.error-content strong {
-  display: block;
-  margin-bottom: 3px;
-  font-size: 14px;
+.error-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
-.error-content p {
-  margin: 0;
-  color: #b91c1c;
-  font-size: 13px;
+.error-content strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: #b42318;
+}
+
+.error-content span {
+  font-size: 14px;
+  color: #7a271a;
+  line-height: 1.5;
+}
+
+@media (max-width: 576px) {
+  .error-container {
+    padding: 12px 14px;
+  }
+
+  .error-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .error-content strong,
+  .error-content span {
+    font-size: 13px;
+  }
 }

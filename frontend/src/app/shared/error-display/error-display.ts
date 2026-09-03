@@ -7,9 +7,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './error-display.css',
 })
 export class ErrorDisplay {
-
   @Input() message: string = '';
-
   @Input() show: boolean = false;
-
 }
