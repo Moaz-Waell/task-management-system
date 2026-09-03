@@ -14,12 +14,13 @@ export class Tasklist implements OnInit {
   filteredTasks: ITask[] = [];
   searchTerm: string = '';
   selectedStatus: string = 'all';
+  sortOrder: string = 'newest';
   errorMessage: string = '';
 
   constructor(
     private taskService: Taskservice, 
     private router: Router,
-    private cd: ChangeDetectorRef // 👈 حقن ChangeDetectorRef لتحديث الـ UI فوراً
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -27,19 +28,17 @@ export class Tasklist implements OnInit {
   }
 
   loadTasks(): void {
-    // تفريغ المصفوفات لمنع استرجاع الكاش القديم
     this.tasks = [];
     this.filteredTasks = [];
 
     this.taskService.getalltasks().subscribe({
       next: (data) => {
         this.tasks = data;
-        // إعادة ضبط البحث والفلتر للوضع الافتراضي
         this.searchTerm = '';
         this.selectedStatus = 'all';
+        this.sortOrder = 'newest';
         this.applyFilters();
 
-        // 👈 إجبار أنجولار على تحديث الصفحة فور وصول البيانات
         this.cd.detectChanges();
       },
       error: () => {
@@ -51,17 +50,26 @@ export class Tasklist implements OnInit {
 
   applyFilters(): void {
     this.filteredTasks = this.tasks.filter(task => {
-      // 1. بحث بدون مراعاة حالة الأحرف (Case-insensitive)
       const matchesSearch = task.title
         ? task.title.toLowerCase().includes(this.searchTerm.toLowerCase())
         : true;
 
-      // 2. فلترة الحالة مع تحويل الطرفين لـ lowercase لضمان التطابق
       const matchesStatus =
         this.selectedStatus === 'all' ||
         (task.status && task.status.toLowerCase() === this.selectedStatus.toLowerCase());
 
       return matchesSearch && matchesStatus;
+    });
+
+    this.sortTasks();
+  }
+
+  sortTasks(): void {
+    this.filteredTasks.sort((a, b) => {
+      const dateA = new Date(a.createdAt || 0).getTime();
+      const dateB = new Date(b.createdAt || 0).getTime();
+
+      return this.sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
     });
   }
 
@@ -71,6 +79,10 @@ export class Tasklist implements OnInit {
 
   onStatusChange(): void {
     this.applyFilters();
+  }
+
+  onSortChange(): void {
+    this.sortTasks();
   }
 
   goToEdit(id: string | undefined): void {
@@ -95,8 +107,8 @@ export class Tasklist implements OnInit {
   }
 
   goToNewTask(): void {
-  this.router.navigate(['/tasks/new'], {
-    queryParams: { from: 'tasks' }
-  });
-}
+    this.router.navigate(['/tasks/new'], {
+      queryParams: { from: 'tasks' }
+    });
+  }
 }

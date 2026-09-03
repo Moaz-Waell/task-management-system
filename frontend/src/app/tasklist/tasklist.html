@@ -8,13 +8,13 @@
         <p>Manage and track your project workflows.</p>
       </div>
       <button
-  type="button"
-  class="btn-primary"
-  [routerLink]="['/tasks/new']"
-  [queryParams]="{ from: 'tasks' }"
->
-  + New Task
-</button>
+        type="button"
+        class="btn-primary"
+        [routerLink]="['/tasks/new']"
+        [queryParams]="{ from: 'tasks' }"
+      >
+        + New Task
+      </button>
     </div>
 
     <div class="error-banner" *ngIf="errorMessage">{{ errorMessage }}</div>
@@ -33,8 +33,9 @@
         <option value="in-progress">In-Progress</option>
         <option value="completed">Completed</option>
       </select>
-      <select class="sort-select">
-        <option>Sort by: Date</option>
+      <select class="sort-select" [(ngModel)]="sortOrder" (ngModelChange)="onSortChange()">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
       </select>
     </div>
 
