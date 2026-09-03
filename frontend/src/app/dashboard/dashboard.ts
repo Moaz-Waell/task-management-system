@@ -25,6 +25,7 @@ export class Dashboard implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     const user = this.userservice.getuser();
 
     if (user) {
@@ -32,22 +33,29 @@ export class Dashboard implements OnInit {
     }
 
     this.loadTasks();
+
+    this.dashboardService.taskchanged$.subscribe(() => {
+      this.loadTasks();
+    });
   }
 
   loadTasks(): void {
+
     this.dashboardService.getTasks().subscribe({
       next: (tasks) => {
+
         this.tasks = tasks;
 
-        this.totalTasks = this.tasks.length;
+        this.totalTasks = tasks.length;
 
-        this.pendingTasks = this.tasks.filter(
+        this.pendingTasks = tasks.filter(
           task => task.status === 'pending'
         ).length;
 
-        this.completedTasks = this.tasks.filter(
+        this.completedTasks = tasks.filter(
           task => task.status === 'completed'
         ).length;
+
       },
 
       error: (error) => {
