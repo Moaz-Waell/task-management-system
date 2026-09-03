@@ -20,7 +20,7 @@ const errHandle = require("./middlewares/err.middleware");
 app.use(cors({ origin: "http://localhost:4200" }));
 app.use(express.json());
 
-// --- السطر المفقود الذي يسبب المشكلة ---
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/auth", authRoute);

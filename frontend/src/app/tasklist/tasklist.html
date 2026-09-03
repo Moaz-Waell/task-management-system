@@ -46,6 +46,7 @@
             <th>Task Name</th>
             <th>Description</th>
             <th>Status</th>
+            <th>Attachment</th>
             <th>Created At</th>
             <th>Updated At</th>
             <th>Actions</th>
@@ -57,6 +58,22 @@
             <td class="task-desc">{{ task.description }}</td>
             <td>
               <span class="status-badge" [ngClass]="task.status">{{ task.status }}</span>
+            </td>
+            <td>
+              <a
+                *ngIf="task.attachment"
+                [href]="
+                  task.attachment.startsWith('http')
+                    ? task.attachment
+                    : 'http://localhost:8000/' + (task.attachment.startsWith('uploads') ? task.attachment : 'uploads/' + task.attachment)
+                "
+                target="_blank"
+                rel="noopener noreferrer"
+                class="attachment-link"
+              >
+                📎 View File
+              </a>
+              <span *ngIf="!task.attachment" class="no-file">—</span>
             </td>
             <td>{{ task.createdAt ? (task.createdAt | date:'MMM d, h:mm a') : '—' }}</td>
             <td>{{ task.updatedAt ? (task.updatedAt | date:'MMM d, h:mm a') : '—' }}</td>
