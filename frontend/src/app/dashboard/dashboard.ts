@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ITask } from '../models/itask';
 import { DashboardService } from '../services/dashboard';
 import { Userservice } from '../services/userservice';
@@ -21,11 +21,11 @@ export class Dashboard implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
-    private userservice: Userservice
+    private userservice: Userservice,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-
     const user = this.userservice.getuser();
 
     if (user) {
@@ -40,10 +40,8 @@ export class Dashboard implements OnInit {
   }
 
   loadTasks(): void {
-
     this.dashboardService.getTasks().subscribe({
       next: (tasks) => {
-
         this.tasks = tasks;
 
         this.totalTasks = tasks.length;
@@ -56,6 +54,8 @@ export class Dashboard implements OnInit {
           task => task.status === 'completed'
         ).length;
 
+        // إجبار Angular على تحديث الـ HTML
+        this.cdr.detectChanges();
       },
 
       error: (error) => {
