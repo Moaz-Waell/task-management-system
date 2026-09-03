@@ -1,0 +1,150 @@
+.profile-page {
+  min-height: 100vh;
+  padding: 24px min(8vw, 128px);
+  background: #faf8ff;
+}
+
+.profile-header {
+  margin-bottom: 30px;
+}
+
+.profile-header h1 {
+  margin-bottom: 8px;
+  color: #191b24;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.profile-header p {
+  margin: 0;
+  color: #5f6372;
+  font-size: 16px;
+}
+
+.profile-card {
+  max-width: 1120px;
+  border: 1px solid #d6d7e3;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.profile-card-header {
+  padding: 24px;
+  border-bottom: 1px solid #e1e2e9;
+}
+
+.profile-card h2 {
+  margin: 0;
+  color: #191b24;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.profile-card h2 i {
+  margin-right: 12px;
+  color: #0d6efd;
+  font-size: 22px;
+}
+
+.profile-card form {
+  padding: 24px;
+}
+
+.profile-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group label {
+  margin-bottom: 8px;
+  color: #30323d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field-group input {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 14px;
+  border: 1px solid #cfd3e1;
+  border-radius: 8px;
+  color: #3e414c;
+  font-size: 16px;
+  outline: none;
+}
+
+.field-group input:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgb(13 110 253 / 12%);
+}
+
+.field-group small {
+  margin-top: 24px;
+  color: #626675;
+  font-size: 12px;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 48px;
+}
+
+.cancel-button,
+.save-button {
+  min-height: 40px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cancel-button {
+  border: 1px solid #d4d8e4;
+  background: #fff;
+  color: #3d414d;
+}
+
+.save-button {
+  border: 1px solid #0d6efd;
+  background: #0d6efd;
+  color: #fff;
+}
+
+.save-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.save-button i {
+  margin-right: 8px;
+}
+
+.save-error {
+  margin: 20px 0 0;
+  color: #c0392b;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 32px 20px;
+  }
+
+  .profile-fields {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .profile-actions {
+    margin-top: 32px;
+  }
+}
