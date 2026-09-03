@@ -6,6 +6,7 @@ import { Register } from './register/register';
 import { Dashboard } from './dashboard/dashboard';
 import { Profile } from './profile/profile';
 import { TaskForm } from './task-form/task-form';
+import { Tasklist } from './tasklist/tasklist';
 import { authGuard } from './guards/auth-guard';
 import { noAuthGuard } from './guards/no-auth-guard';
 
@@ -22,13 +23,18 @@ const routes: Routes = [
   {
     path: 'profile',
     component: Profile,
-
+    canActivate: [authGuard],
+  },
+  {
+    path: 'tasks',
+    component: Tasklist,
+    canActivate: [authGuard],
+  },
   {
     path: 'tasks/new',
     component: TaskForm,
     canActivate: [authGuard],
   },
-
   {
     path: 'tasks/edit/:id',
     component: TaskForm,
