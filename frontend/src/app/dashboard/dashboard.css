@@ -81,7 +81,7 @@
 }
 
 .completed-card::after {
-  background: #ececf7;
+  background: #e5f5e8;
 }
 
 .card-top {
@@ -112,8 +112,8 @@
 }
 
 .completed-icon {
-  background: #e7e8f1;
-  color: #4b5563;
+  background: #75b87a;
+  color: white;
 }
 
 .card-badge {
@@ -178,4 +178,12 @@
   .new-task-btn {
     width: 100%;
   }
+}
+
+.in-progress-card::after {
+  background: #eee8ff;
+}
+
+.in-progress-icon {
+  background: #7c5cff;
 }

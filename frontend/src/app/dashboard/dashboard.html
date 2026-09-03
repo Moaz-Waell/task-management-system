@@ -1,75 +1,132 @@
 <div class="d-flex">
   <app-sidebar></app-sidebar>
+
   <div class="flex-grow-1">
+
     <div class="dashboard">
+
       <div
         class="dashboard-header d-flex justify-content-between align-items-start flex-wrap gap-3"
       >
+
         <div>
           <h1>Welcome back, {{ userName }}!</h1>
           <p>Here's what's happening with your projects today.</p>
         </div>
 
         <button
-  type="button"
-  class="new-task-btn"
-  [routerLink]="['/tasks/new']"
-  [queryParams]="{ from: 'dashboard' }"
->
-  + New Task
-</button>
+          type="button"
+          class="new-task-btn"
+          [routerLink]="['/tasks/new']"
+          [queryParams]="{ from: 'dashboard' }"
+        >
+          + New Task
+        </button>
+
       </div>
 
       <div class="stats-container row g-4">
+
         <div class="col-12 col-lg-4">
+
           <div class="stat-card total-card h-100">
+
             <div class="card-top">
+
               <div class="icon-box total-icon">
                 <span>▣</span>
               </div>
+
             </div>
 
             <div class="card-content">
               <p>Total Tasks</p>
               <h2>{{ totalTasks }}</h2>
             </div>
+
           </div>
+
         </div>
 
         <div class="col-12 col-lg-4">
+
           <div class="stat-card pending-card h-100">
+
             <div class="card-top">
+
               <div class="icon-box pending-icon">
                 <span>◷</span>
               </div>
 
-              <span class="card-badge orange-badge"> Requires Attention </span>
+              <span class="card-badge orange-badge">
+                Requires Attention
+              </span>
+
             </div>
 
             <div class="card-content">
               <p>Pending</p>
               <h2>{{ pendingTasks }}</h2>
             </div>
+
           </div>
+
         </div>
 
         <div class="col-12 col-lg-4">
-          <div class="stat-card completed-card h-100">
+
+          <div class="stat-card in-progress-card h-100">
+
             <div class="card-top">
+
+              <div class="icon-box in-progress-icon">
+                <span>◷</span>
+              </div>
+
+              <span class="card-badge blue-badge">
+                In Progress
+              </span>
+
+            </div>
+
+            <div class="card-content">
+              <p>In Progress</p>
+              <h2>{{ inProgressTasks }}</h2>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-12 col-lg-4">
+
+          <div class="stat-card completed-card h-100">
+
+            <div class="card-top">
+
               <div class="icon-box completed-icon">
                 <span>✓</span>
               </div>
 
-              <span class="card-badge gray-badge"> On track </span>
+              <span class="card-badge gray-badge">
+                On track
+              </span>
+
             </div>
 
             <div class="card-content">
               <p>Completed</p>
               <h2>{{ completedTasks }}</h2>
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
