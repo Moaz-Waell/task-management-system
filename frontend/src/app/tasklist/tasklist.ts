@@ -70,6 +70,8 @@ export class Tasklist implements OnInit {
   }
 
   goToNewTask(): void {
-    this.router.navigate(['/tasks/new']);
-  }
+  this.router.navigate(['/tasks/new'], {
+    queryParams: { from: 'tasks' }
+  });
+}
 }

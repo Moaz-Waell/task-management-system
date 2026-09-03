@@ -13,10 +13,10 @@
         <button
   type="button"
   class="new-task-btn"
-  routerLink="/tasks/new"
+  [routerLink]="['/tasks/new']"
+  [queryParams]="{ from: 'dashboard' }"
 >
-  <span>+</span>
-  New Task
+  + New Task
 </button>
       </div>
 

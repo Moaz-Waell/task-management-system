@@ -19,6 +19,7 @@ export class TaskForm implements OnInit {
 
   taskid: string | null = null;
   selectedfile: File | null = null;
+  returnPage: string = 'dashboard';
 
   isedit: boolean = false;
   issaving: boolean = false;
@@ -34,6 +35,10 @@ export class TaskForm implements OnInit {
 
   ngOnInit(): void {
     this.taskid = this.activatedroute.snapshot.paramMap.get('id');
+
+    this.returnPage =
+  this.activatedroute.snapshot.queryParamMap.get('from') ||
+  'dashboard';
 
     if (this.taskid) {
       this.isedit = true;
@@ -159,6 +164,10 @@ export class TaskForm implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/dashboard']);
+    if (this.returnPage === 'tasks') {
+      this.router.navigate(['/tasks']);
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
   }
 }

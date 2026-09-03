@@ -7,7 +7,14 @@
         <h1>My Tasks</h1>
         <p>Manage and track your project workflows.</p>
       </div>
-      <button class="btn-primary" (click)="goToNewTask()">+ New Task</button>
+      <button
+  type="button"
+  class="btn-primary"
+  [routerLink]="['/tasks/new']"
+  [queryParams]="{ from: 'tasks' }"
+>
+  + New Task
+</button>
     </div>
 
     <div class="error-banner" *ngIf="errorMessage">{{ errorMessage }}</div>
