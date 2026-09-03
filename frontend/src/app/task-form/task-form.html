@@ -1,0 +1,204 @@
+<div class="task-page">
+  <div class="task-card">
+    <div class="form-header">
+      <div class="form-icon">
+        {{ isedit ? '✎' : '+' }}
+      </div>
+
+      <div>
+        <h1>{{ isedit ? 'Edit Task' : 'Create New Task' }}</h1>
+
+        <p>
+          {{
+            isedit
+              ? 'Update the task information and save the changes.'
+              : 'Add a new task to your workspace.'
+          }}
+        </p>
+      </div>
+    </div>
+
+    <div class="alert alert-success" *ngIf="message">
+      {{ message }}
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errormessage">
+      {{ errormessage }}
+    </div>
+
+    <form #taskform="ngForm" (ngSubmit)="savetask(taskform)">
+      <div class="form-group">
+        <label for="title" class="form-label">
+          Task Title
+          <span class="required-star">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="form-control"
+          placeholder="Enter task title"
+          [(ngModel)]="task.title"
+          required
+          minlength="3"
+          maxlength="100"
+          #title="ngModel"
+          [class.invalid-input]="title.invalid && title.touched"
+        />
+
+        <div
+          class="validation-message"
+          *ngIf="title.invalid && title.touched"
+        >
+          <span *ngIf="title.errors?.['required']">
+            Task title is required
+          </span>
+
+          <span *ngIf="title.errors?.['minlength']">
+            Task title must be at least 3 characters
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">
+          Description
+          <span class="required-star">*</span>
+        </label>
+
+        <textarea
+          id="description"
+          name="description"
+          class="form-control"
+          rows="5"
+          placeholder="Describe the task"
+          [(ngModel)]="task.description"
+          required
+          minlength="5"
+          maxlength="500"
+          #description="ngModel"
+          [class.invalid-input]="
+            description.invalid && description.touched
+          "
+        ></textarea>
+
+        <div class="field-footer">
+          <div
+            class="validation-message"
+            *ngIf="description.invalid && description.touched"
+          >
+            <span *ngIf="description.errors?.['required']">
+              Task description is required
+            </span>
+
+            <span *ngIf="description.errors?.['minlength']">
+              Description must be at least 5 characters
+            </span>
+          </div>
+
+          <span class="character-count">
+            {{ task.description.length }}/500
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="status" class="form-label">
+          Status
+          <span class="required-star">*</span>
+        </label>
+
+        <select
+          id="status"
+          name="status"
+          class="form-select"
+          [(ngModel)]="task.status"
+          required
+          #status="ngModel"
+        >
+          <option value="pending">Pending</option>
+          <option value="in-progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+
+        <div
+          class="validation-message"
+          *ngIf="status.invalid && status.touched"
+        >
+          Status is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="attachment" class="form-label">
+          Attachment
+          <span class="optional-text">Optional</span>
+        </label>
+
+        <label for="attachment" class="upload-area">
+          <div class="upload-icon">⇧</div>
+
+          <div class="upload-content" *ngIf="!selectedfile">
+            <strong>Choose a file</strong>
+            <span>Maximum file size: 5 MB</span>
+          </div>
+
+          <div class="upload-content" *ngIf="selectedfile">
+            <strong>{{ selectedfile.name }}</strong>
+
+            <span>
+              {{ (selectedfile.size / 1024).toFixed(1) }} KB selected
+            </span>
+          </div>
+        </label>
+
+        <input
+          #fileinput
+          type="file"
+          id="attachment"
+          class="file-input"
+          (change)="selectfile($event)"
+        />
+
+        <button
+          type="button"
+          class="remove-file-button"
+          *ngIf="selectedfile"
+          (click)="removefile(fileinput)"
+        >
+          Remove selected file
+        </button>
+
+        <div class="current-file" *ngIf="isedit && task.attachment">
+          Current attachment: {{ task.attachment }}
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="cancel()"
+          [disabled]="issaving"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="save-button"
+          [disabled]="issaving"
+        >
+          <span *ngIf="!issaving">
+            {{ isedit ? 'Update Task' : 'Create Task' }}
+          </span>
+
+          <span *ngIf="issaving">
+            Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
