@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ITask } from '../models/itask';
 import { Taskservice } from '../services/taskservice';
+import { DashboardService } from '../services/dashboard';
 
 @Component({
   selector: 'app-task-form',
@@ -27,11 +28,12 @@ export class TaskForm implements OnInit {
   message: string = '';
   errormessage: string = '';
 
-  constructor(
-    private taskservice: Taskservice,
-    private activatedroute: ActivatedRoute,
-    private router: Router,
-  ) {}
+constructor(
+  private taskservice: Taskservice,
+  private dashboardService: DashboardService,
+  private activatedroute: ActivatedRoute,
+  private router: Router,
+) {}
 
   ngOnInit(): void {
     this.taskid = this.activatedroute.snapshot.paramMap.get('id');
@@ -149,14 +151,16 @@ export class TaskForm implements OnInit {
       });
   }
 
-  savesuccess(message: string): void {
-    this.issaving = false;
-    this.message = message;
+savesuccess(message: string): void {
+  this.issaving = false;
+  this.message = message;
 
-    setTimeout(() => {
-      this.router.navigate(['/dashboard']);
-    }, 1000);
-  }
+  this.dashboardService.notifyTaskChanged();
+
+  setTimeout(() => {
+    this.router.navigate(['/dashboard']);
+  }, 1000);
+}
 
   saveerror(message: string): void {
     this.issaving = false;

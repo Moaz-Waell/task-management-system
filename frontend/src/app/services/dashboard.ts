@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ITask } from '../models/itask';
 import { Userservice } from './userservice';
 
@@ -10,6 +10,10 @@ import { Userservice } from './userservice';
 export class DashboardService {
 
   private apiurl = 'http://127.0.0.1:8000';
+
+  private taskchanged = new Subject<void>();
+
+  taskchanged$ = this.taskchanged.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -21,5 +25,9 @@ export class DashboardService {
       `${this.apiurl}/tasks`,
       this.userservice.getauthheaders()
     );
+  }
+
+  notifyTaskChanged(): void {
+    this.taskchanged.next();
   }
 }
